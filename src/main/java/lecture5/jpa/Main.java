@@ -96,7 +96,6 @@ public class Main {
             System.out.println("1. Books");
             System.out.println("2. Tickets");
             System.out.println("3. Magazines"); // New option for Magazines
-            System.out.println("4. Pencil Operations");
             System.out.println("5. Disc Magazine Operations");
             System.out.println("6. Exit");
             System.out.println("--------------------------------------------------------------");
