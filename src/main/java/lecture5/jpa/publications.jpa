@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <entity-mappings ptype="MONOLITH" ppkg="lecture5.jpa" epkg="entities" v="6.1.0" rws="_173092302574258" Pws="_173092302574258" cws="_173092302574258" persistenceUnitName="DEFAULT_PU" pp="E" sm="false" xs="false" id="_173092302574257" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <entity compositePrimaryKeyClass="PublicationPK" abs="true" class="Publication" pclass="Publications" v="true" jbn="false" xre="false" m="false" rootElement="_173092302574257" id="_173092302974659">
-        <ext e="true" n="lecture5.jpa.Editable"/>
+        <ext e="true" n="lecture5.jpa.entities.Editable"/>
         <inf e="true" n="lecture5.jpa.SaleableItem"/>
         <ath>fcarella</ath>
         <attributes>

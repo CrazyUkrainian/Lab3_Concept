@@ -1,14 +1,13 @@
 package lecture5.jpa.entities;
 
 import lecture5.jpa.SaleableItem;
-import lecture5.jpa.Editable;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)  // Use JOINED inheritance strategy for subclasses
-public abstract class Publication implements SaleableItem, Serializable {
+public abstract class Publication extends Editable implements SaleableItem, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public abstract class Publication implements SaleableItem, Serializable {
     }
 
     // Constructor with parameters
-    public Publication(String title, double price, int copies, String ISBN10) {
+    public Publication(String title, double price, int copies) {
         this.title = title;
         this.price = price;
         this.copies = copies;

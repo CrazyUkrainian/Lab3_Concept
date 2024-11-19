@@ -1,33 +1,47 @@
 package lecture5.jpa.entities;
 
-import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lecture5.jpa.SaleableItem;
 
-/**
- * @author fcarella
- */
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 @Entity
-public class Ticket implements SaleableItem, Serializable {
+public abstract class Ticket extends Editable implements SaleableItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;  // Primary key field for the entity
+
     @Basic
     private String description;
 
+    @Basic
+    private double price;
+
+    @Basic
+    private int quantity;
+
+    // Default constructor required for JPA
+    public Ticket() {
+        super();
+    }
+
+    // Constructor with parameters
+    public Ticket(String description, double price, int quantity) {
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Getter for id (required for JPA)
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters and Setters for description, price, and quantity
     public String getDescription() {
         return description;
     }
@@ -36,22 +50,61 @@ public class Ticket implements SaleableItem, Serializable {
         this.description = description;
     }
 
+    public double getTicketPrice() {
+        return price;
+    }
+
+    public void setTicketPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // Implemented methods from SaleableItem
     @Override
     public double getPrice() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return price;
+    }
+
+    @Override
+    public short sellCopy() {
+        if (quantity > 0) {
+            quantity--;
+            System.out.println("Ticket sold: " + description);
+            return 1; // Indicates successful sale
+        } else {
+            System.out.println("No more tickets available.");
+            return 0; // Indicates no stock
+        }
+    }
+
+    // Editable methods
+    @Override
+    public void edit() {
+        // Logic to edit ticket's details
+        System.out.println("Editing ticket details:");
+        setDescription(getInputString("Enter new description: "));
+        setTicketPrice(getInputDouble("Enter new price: "));
+        setQuantity(getInputInt("Enter new quantity: "));
+    }
+
+    @Override
+    public void initialize() {
+        // Logic to initialize a new ticket
+        System.out.println("Initializing a new ticket:");
+        setDescription(getInputString("Enter description: "));
+        setTicketPrice(getInputDouble("Enter price: "));
+        setQuantity(getInputInt("Enter quantity: "));
     }
 
     @Override
     public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                '}';
+        return "Ticket ID: " + id + ", Description: " + description + ", Price: " + price + ", Quantity: " + quantity;
     }
-
-    @Override
-    public void sellItem(SaleableItem si) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

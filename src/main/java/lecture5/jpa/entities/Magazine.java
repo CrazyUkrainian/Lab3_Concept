@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import java.sql.Date;
 
 @Entity
-public class Magazine extends Publication {
+public abstract class Magazine extends Publication {
 
     @Basic
     private int orderQty;
@@ -18,12 +18,12 @@ public class Magazine extends Publication {
     private String isbn13;
 
     // Default constructor required for JPA
-    public Magazine() {
+    public Magazine(String title, double price, int quantity, String isbn13) {
         super();
     }
 
     // Constructor with parameters
-    public Magazine(String title, double price, int copies, int orderQty, String isbn13) {
+    public Magazine(String title, double price, int copies, int orderQty) {
         super(title, price, copies); // Call to the Publication constructor
         this.orderQty = orderQty;
         this.currIssue = new Date(System.currentTimeMillis()); // Initialize current issue to current date
@@ -71,7 +71,7 @@ public class Magazine extends Publication {
         setPrice(getInputDouble("Enter new price: "));
         setCopies(getInputInt("Enter new number of copies: "));
         setOrderQty(getInputInt("Enter new order quantity: "));
-        setCurrIssue(getInputDate("Enter new current issue date (yyyy-mm-dd): "));
+        setCurrIssue((Date) getInputDate("Enter new current issue date (yyyy-mm-dd): "));
         setIsbn13(getInputString("Enter new ISBN13: "));
     }
 
@@ -83,7 +83,7 @@ public class Magazine extends Publication {
         setPrice(getInputDouble("Enter price: "));
         setCopies(getInputInt("Enter number of copies: "));
         setOrderQty(getInputInt("Enter order quantity: "));
-        setCurrIssue(getInputDate("Enter current issue date (yyyy-mm-dd): "));
+        setCurrIssue((Date) getInputDate("Enter current issue date (yyyy-mm-dd): "));
         setIsbn13(getInputString("Enter ISBN13: "));
     }
 }

@@ -1,6 +1,4 @@
 package lecture5.jpa.entities;
-import lecture5.jpa.Editable;
-
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;

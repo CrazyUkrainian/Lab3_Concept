@@ -19,7 +19,18 @@ public class CashTill {
     public CashTill() {
         this.runningTotal = 0;
     }
-
+    private static CashTill instance;
+    // Method to get the Singleton instance
+    public static CashTill getInstance() {
+        if (instance == null) {
+            synchronized (CashTill.class) {  // Thread-safe lazy initialization
+                if (instance == null) {
+                    instance = new CashTill();
+                }
+            }
+        }
+        return instance;
+    }
     // Method to add to the total
     public void addToTotal(double amount) {
         if (amount > 0) {  // Ensure only positive amounts are added

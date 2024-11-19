@@ -4,10 +4,6 @@
  */
 package lecture5.jpa;
 
-/**
- *
- * @author fcarella
- */
 public interface SaleableItem {
     short sellCopy();
     Double getBrand(); // Should return the brand name

@@ -4,15 +4,11 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 
 @Entity
-public class DiscMag extends Magazine {
+public abstract class DiscMag extends Magazine {
 
     @Basic
     private boolean hasDisc;
 
-    // Default constructor for JPA
-    public DiscMag() {
-        super();
-    }
 
     // Constructor with parameters for title, price, copies, orderQty, and hasDisc
     public DiscMag(String title, double price, int copies, int orderQty, boolean hasDisc) {
