@@ -8,8 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import lecture5.jpa.controllers.TicketJpaController;
+import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 @Entity
 public abstract class Ticket extends Editable implements SaleableItem {
+
+    private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    private static TicketJpaController ticketController = new TicketJpaController(emf);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +94,40 @@ public abstract class Ticket extends Editable implements SaleableItem {
         }
     }
 
+    // Save the Ticket to the database
+    public void saveToDatabase() {
+        try {
+            ticketController.create(this);
+            System.out.println("Ticket saved successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error saving Ticket: " + e.getMessage());
+        }
+    }
+
+    // Update the Ticket in the database
+    public void updateInDatabase() {
+        try {
+            ticketController.edit(this);
+            System.out.println("Ticket updated successfully.");
+        } catch (NonexistentEntityException e) {
+            System.out.println("Error: The Ticket no longer exists.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error updating Ticket: " + e.getMessage());
+        }
+    }
+
+    // Delete the Ticket from the database
+    public void deleteFromDatabase() {
+        try {
+            ticketController.destroy(getId());
+            System.out.println("Ticket deleted successfully.");
+        } catch (NonexistentEntityException e) {
+            System.out.println("Error: The Ticket no longer exists.");
+        }
+    }
+
     // Editable methods
     @Override
     public void edit() {
@@ -92,6 +136,9 @@ public abstract class Ticket extends Editable implements SaleableItem {
         setDescription(getInputString("Enter new description: "));
         setTicketPrice(getInputDouble("Enter new price: "));
         setQuantity(getInputInt("Enter new quantity: "));
+
+        // Update in database
+        updateInDatabase();
     }
 
     @Override
@@ -101,6 +148,9 @@ public abstract class Ticket extends Editable implements SaleableItem {
         setDescription(getInputString("Enter description: "));
         setTicketPrice(getInputDouble("Enter price: "));
         setQuantity(getInputInt("Enter quantity: "));
+
+        // Save to database
+        saveToDatabase();
     }
 
     @Override

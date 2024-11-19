@@ -1,13 +1,20 @@
 package lecture5.jpa.entities;
 
 import lecture5.jpa.SaleableItem;
-
 import javax.persistence.*;
 import java.io.Serializable;
+
+import lecture5.jpa.controllers.PublicationJpaController;
+import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)  // Use JOINED inheritance strategy for subclasses
 public abstract class Publication extends Editable implements SaleableItem, Serializable {
+
+    private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    private static PublicationJpaController publicationController = new PublicationJpaController(emf);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +88,40 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
 
     public void setISBN10(String ISBN10) {
         this.ISBN10 = ISBN10;
+    }
+
+    // Save the publication to the database
+    public void saveToDatabase() {
+        try {
+            publicationController.create(this);
+            System.out.println("Publication saved successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error saving publication: " + e.getMessage());
+        }
+    }
+
+    // Update the publication in the database
+    public void updateInDatabase() {
+        try {
+            publicationController.edit(this);
+            System.out.println("Publication updated successfully.");
+        } catch (NonexistentEntityException e) {
+            System.out.println("Error: The publication no longer exists.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error updating publication: " + e.getMessage());
+        }
+    }
+
+    // Delete the publication from the database
+    public void deleteFromDatabase() {
+        try {
+            publicationController.destroy(getId());
+            System.out.println("Publication deleted successfully.");
+        } catch (NonexistentEntityException e) {
+            System.out.println("Error: The publication no longer exists.");
+        }
     }
 
     // Method to sell a copy

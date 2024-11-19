@@ -1,5 +1,9 @@
 
 package lecture5.jpa.entities;
+import lecture5.jpa.controllers.BookJpaController;
+import lecture5.jpa.controllers.DiscMagJpaController;
+import lecture5.jpa.controllers.MagazineJpaController;
+import lecture5.jpa.controllers.TicketJpaController;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -65,4 +69,22 @@ public abstract class Editable implements Serializable {
     // Abstract methods
     public abstract void edit();
     public abstract void initialize();
+    public void saveChangesToDatabase(Object controller) {
+        try {
+            if (controller instanceof BookJpaController && this instanceof Book) {
+                ((BookJpaController) controller).edit((Book) this);
+            } else if (controller instanceof MagazineJpaController && this instanceof Magazine) {
+                ((MagazineJpaController) controller).edit((Magazine) this);
+            } else if (controller instanceof TicketJpaController && this instanceof Ticket) {
+                ((TicketJpaController) controller).edit((Ticket) this);
+            } else if (controller instanceof DiscMagJpaController && this instanceof DiscMag) {
+                ((DiscMagJpaController) controller).edit((DiscMag) this);
+            } else {
+                throw new UnsupportedOperationException("Controller not supported for this entity type.");
+            }
+            System.out.println("Changes saved to database successfully.");
+        } catch (Exception e) {
+            System.err.println("Error saving changes to database: " + e.getMessage());
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package lecture5.jpa.entities;
 
+import lecture5.jpa.controllers.CashTillJpaController;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -19,8 +20,10 @@ public class CashTill {
     public CashTill() {
         this.runningTotal = 0;
     }
+
     private static CashTill instance;
-    // Method to get the Singleton instance
+
+    // Singleton instance method
     public static CashTill getInstance() {
         if (instance == null) {
             synchronized (CashTill.class) {  // Thread-safe lazy initialization
@@ -31,6 +34,7 @@ public class CashTill {
         }
         return instance;
     }
+
     // Method to add to the total
     public void addToTotal(double amount) {
         if (amount > 0) {  // Ensure only positive amounts are added
@@ -58,5 +62,18 @@ public class CashTill {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    // Add persistence methods (optional for convenience)
+    public void saveToDatabase(CashTillJpaController controller) {
+        if (id == null) {
+            controller.create(this);
+        } else {
+            try {
+                controller.edit(this);
+            } catch (Exception e) {
+                System.out.println("Error saving CashTill: " + e.getMessage());
+            }
+        }
     }
 }
