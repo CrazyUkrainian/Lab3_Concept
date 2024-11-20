@@ -652,7 +652,7 @@ public class App {
         System.out.print("ISBN13: ");
         String isbn13 = scanner.nextLine();
 
-        Magazine magazine = new Magazine(title, price, quantity) {
+        Magazine magazine = new Magazine() {
             @Override
             public Double getBrand() {
                 return 0.0; // Adjust based on your application

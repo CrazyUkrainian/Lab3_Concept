@@ -7,14 +7,11 @@ import java.io.Serializable;
 import lecture5.jpa.controllers.PublicationJpaController;
 import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
 
-
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)  // Use JOINED inheritance strategy for subclasses
+@Inheritance(strategy = InheritanceType.JOINED) // JOINED inheritance strategy for subclasses
+@DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING) // Discriminator column
+@DiscriminatorValue("Publication") // Default discriminator value for this abstract class
 public abstract class Publication extends Editable implements SaleableItem, Serializable {
-
-    private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    private static PublicationJpaController publicationController = new PublicationJpaController(emf);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +31,6 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
 
     // Default constructor required for JPA
     public Publication() {
-        // No-argument constructor
     }
 
     // Constructor with parameters
@@ -45,7 +41,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         this.ISBN10 = ISBN10;
     }
 
-    // Getter and Setter for id
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -54,7 +50,6 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         this.id = id;
     }
 
-    // Getter and Setter for title
     public String getTitle() {
         return title;
     }
@@ -63,7 +58,6 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         this.title = title;
     }
 
-    // Getter and Setter for price
     public double getPrice() {
         return price;
     }
@@ -72,7 +66,6 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         this.price = price;
     }
 
-    // Getter and Setter for copies
     public int getCopies() {
         return copies;
     }
@@ -81,7 +74,6 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         this.copies = copies;
     }
 
-    // Getter and Setter for ISBN10
     public String getISBN10() {
         return ISBN10;
     }
@@ -91,7 +83,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
     }
 
     // Save the publication to the database
-    public void saveToDatabase() {
+    public void saveToDatabase(PublicationJpaController publicationController) {
         try {
             publicationController.create(this);
             System.out.println("Publication saved successfully.");
@@ -102,7 +94,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
     }
 
     // Update the publication in the database
-    public void updateInDatabase() {
+    public void updateInDatabase(PublicationJpaController publicationController) {
         try {
             publicationController.edit(this);
             System.out.println("Publication updated successfully.");
@@ -115,7 +107,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
     }
 
     // Delete the publication from the database
-    public void deleteFromDatabase() {
+    public void deleteFromDatabase(PublicationJpaController publicationController) {
         try {
             publicationController.destroy(getId());
             System.out.println("Publication deleted successfully.");
@@ -128,10 +120,12 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
     public short sellCopy() {
         if (copies > 0) {
             copies--;
+            System.out.println("Sold one copy. Remaining copies: " + copies);
+            return 1; // Successfully sold
         } else {
             System.out.println("Out of stock.");
+            return 0; // Failed to sell
         }
-        return 0;
     }
 
     // Equals method for comparison
@@ -141,6 +135,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         if (obj == null || getClass() != obj.getClass()) return false;
         Publication that = (Publication) obj;
         return Double.compare(that.price, price) == 0 &&
+                copies == that.copies &&
                 title.equals(that.title) &&
                 ISBN10.equals(that.ISBN10);
     }
@@ -152,6 +147,7 @@ public abstract class Publication extends Editable implements SaleableItem, Seri
         long temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + ISBN10.hashCode();
+        result = 31 * result + copies;
         return result;
     }
 

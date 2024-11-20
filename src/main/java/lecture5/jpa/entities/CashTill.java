@@ -2,17 +2,14 @@ package lecture5.jpa.entities;
 
 import lecture5.jpa.controllers.CashTillJpaController;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import java.text.DecimalFormat;
+import javax.persistence.*;
+
 
 @Entity
-public class CashTill {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-generate an ID for the entity
-    private Long id;  // Primary key field for the entity
+@DiscriminatorValue("CashTill") // Discriminator value for CashTill
+public class CashTill extends TillEntity {
 
     private double runningTotal;
 
@@ -26,7 +23,7 @@ public class CashTill {
     // Singleton instance method
     public static CashTill getInstance() {
         if (instance == null) {
-            synchronized (CashTill.class) {  // Thread-safe lazy initialization
+            synchronized (CashTill.class) { // Thread-safe lazy initialization
                 if (instance == null) {
                     instance = new CashTill();
                 }
@@ -37,7 +34,7 @@ public class CashTill {
 
     // Method to add to the total
     public void addToTotal(double amount) {
-        if (amount > 0) {  // Ensure only positive amounts are added
+        if (amount > 0) { // Ensure only positive amounts are added
             runningTotal += amount;
         } else {
             System.out.println("Cannot add a negative amount.");
@@ -55,18 +52,9 @@ public class CashTill {
         System.out.println("Total Cash in Till: " + df.format(runningTotal));
     }
 
-    // Getter and setter for the id (required for JPA)
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     // Add persistence methods (optional for convenience)
     public void saveToDatabase(CashTillJpaController controller) {
-        if (id == null) {
+        if (getId() == null) {
             controller.create(this);
         } else {
             try {

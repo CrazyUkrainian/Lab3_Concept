@@ -2,19 +2,13 @@ package lecture5.jpa.entities;
 
 import lecture5.jpa.SaleableItem;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 import lecture5.jpa.controllers.TicketJpaController;
 import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 @Entity
+@DiscriminatorValue("TICKET") // Specify the discriminator value for Ticket
 public abstract class Ticket extends Editable implements SaleableItem {
 
     private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";

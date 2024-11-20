@@ -1,6 +1,8 @@
 package lecture5.jpa.entities;
 
+
 import javax.persistence.Basic;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import lecture5.jpa.controllers.DiscMagJpaController;
@@ -10,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Entity
+@DiscriminatorValue("DiscMag") // Discriminator value for DiscMag
 public abstract class DiscMag extends Magazine {
 
     private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
@@ -19,6 +22,10 @@ public abstract class DiscMag extends Magazine {
     @Basic
     private boolean hasDisc;
 
+    // Default constructor for JPA
+    public DiscMag() {
+        super();
+    }
 
     // Constructor with parameters
     public DiscMag(String title, double price, int copies, int orderQty, boolean hasDisc) {

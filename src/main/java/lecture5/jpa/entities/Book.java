@@ -3,11 +3,13 @@ package lecture5.jpa.entities;
 import lecture5.jpa.controllers.BookJpaController;
 import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
 import javax.persistence.Basic;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 @Entity
+@DiscriminatorValue("Book") // Discriminator value for Book
 public abstract class Book extends Publication {
 
     private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
@@ -16,6 +18,8 @@ public abstract class Book extends Publication {
 
     @Basic
     private String author;
+
+    @Basic
     private String ISBN10;
 
     // Default constructor for JPA

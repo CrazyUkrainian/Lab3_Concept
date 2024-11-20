@@ -1,17 +1,14 @@
 package lecture5.jpa.entities;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import javax.persistence.*;
+
 import java.sql.Date;
 
 import lecture5.jpa.controllers.MagazineJpaController;
 import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 @Entity
+@DiscriminatorValue("MAGAZINE") // Specify the discriminator value for Magazine
 public abstract class Magazine extends Publication {
 
     private static final String PERSISTENCE_UNIT_NAME = "DEFAULT_PU";
@@ -28,7 +25,7 @@ public abstract class Magazine extends Publication {
     private String isbn13;
 
     // Default constructor required for JPA
-    public Magazine(String title, double price, int quantity) {
+    public Magazine() {
         super();
     }
 
