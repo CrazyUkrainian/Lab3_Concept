@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package lecture5.jpa.controllers;
+package lab3.q2.jpa.controllers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,13 +10,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import lecture5.jpa.entities.Ticket;
-import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
+import lab3.q2.jpa.entities.Ticket;
+import lab3.q2.jpa.controllers.exceptions.NonexistentEntityException;
 
-/**
- *
- * @author fcarella
- */
+
 public class TicketJpaController implements Serializable {
 
     public TicketJpaController(EntityManagerFactory emf) {
@@ -126,5 +123,5 @@ public class TicketJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

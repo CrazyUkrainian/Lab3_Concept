@@ -1,8 +1,8 @@
-package lecture5.jpa;
+package lab3.q2.jpa;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        App store = new App();
+        Bookstore store = new Bookstore();
         store.run();
     }
 

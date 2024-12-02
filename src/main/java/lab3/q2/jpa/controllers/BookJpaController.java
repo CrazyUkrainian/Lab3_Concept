@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package lecture5.jpa.controllers;
+package lab3.q2.jpa.controllers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,16 +10,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import lecture5.jpa.entities.Publication;
-import lecture5.jpa.controllers.exceptions.NonexistentEntityException;
+import lab3.q2.jpa.entities.Book;
+import lab3.q2.jpa.controllers.exceptions.NonexistentEntityException;
 
-/**
- *
- * @author fcarella
- */
-public class PublicationJpaController implements Serializable {
+public class BookJpaController implements Serializable {
 
-    public PublicationJpaController(EntityManagerFactory emf) {
+    public BookJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -28,12 +24,12 @@ public class PublicationJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Publication publication) {
+    public void create(Book book) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(publication);
+            em.persist(book);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -42,19 +38,19 @@ public class PublicationJpaController implements Serializable {
         }
     }
 
-    public void edit(Publication publication) throws NonexistentEntityException, Exception {
+    public void edit(Book book) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            publication = em.merge(publication);
+            book = em.merge(book);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = publication.getId();
-                if (findPublication(id) == null) {
-                    throw new NonexistentEntityException("The publication with id " + id + " no longer exists.");
+                Long id = book.getId();
+                if (findBook(id) == null) {
+                    throw new NonexistentEntityException("The book with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -70,14 +66,14 @@ public class PublicationJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Publication publication;
+            Book book;
             try {
-                publication = em.getReference(Publication.class, id);
-                publication.getId();
+                book = em.getReference(Book.class, id);
+                book.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The publication with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The book with id " + id + " no longer exists.", enfe);
             }
-            em.remove(publication);
+            em.remove(book);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -86,18 +82,18 @@ public class PublicationJpaController implements Serializable {
         }
     }
 
-    public List<Publication> findPublicationEntities() {
-        return findPublicationEntities(true, -1, -1);
+    public List<Book> findBookEntities() {
+        return findBookEntities(true, -1, -1);
     }
 
-    public List<Publication> findPublicationEntities(int maxResults, int firstResult) {
-        return findPublicationEntities(false, maxResults, firstResult);
+    public List<Book> findBookEntities(int maxResults, int firstResult) {
+        return findBookEntities(false, maxResults, firstResult);
     }
 
-    private List<Publication> findPublicationEntities(boolean all, int maxResults, int firstResult) {
+    private List<Book> findBookEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createQuery("select object(o) from Publication as o");
+            Query q = em.createQuery("SELECT object(o) FROM Book o");
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
@@ -108,23 +104,23 @@ public class PublicationJpaController implements Serializable {
         }
     }
 
-    public Publication findPublication(Long id) {
+    public Book findBook(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Publication.class, id);
+            return em.find(Book.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getPublicationCount() {
+    public int getBookCount() {
         EntityManager em = getEntityManager();
         try {
-            Query q = em.createQuery("select count(o) from Publication as o");
+            Query q = em.createQuery("select count(o) from Book as o");
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package lecture5.jpa.controllers.exceptions;
+package lab3.q2.jpa.controllers.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

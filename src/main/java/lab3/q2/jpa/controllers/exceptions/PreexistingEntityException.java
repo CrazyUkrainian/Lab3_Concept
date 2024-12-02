@@ -1,4 +1,4 @@
-package lecture5.jpa.controllers.exceptions;
+package lab3.q2.jpa.controllers.exceptions;
 
 public class PreexistingEntityException extends Exception {
     public PreexistingEntityException(String message, Throwable cause) {
