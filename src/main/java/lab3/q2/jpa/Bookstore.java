@@ -26,12 +26,12 @@ public class Bookstore {
     public void run() {
         boolean running = true;
         while (running) {
-            System.out.println("\n-------------------------Main---------------------------------");
-            System.out.println("1. Manage Books");
-            System.out.println("2. Manage Tickets");
-            System.out.println("3. Manage Magazines");
-            System.out.println("4. Manage Pencils");
-            System.out.println("5. Exit");
+            System.out.println("\nMain");
+            System.out.println("1 Manage Books");
+            System.out.println("2 Manage Tickets");
+            System.out.println("3 Manage Magazines");
+            System.out.println("4 Manage Pencils");
+            System.out.println("5 Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -43,9 +43,9 @@ public class Bookstore {
                 case 4 -> managePencils();
                 case 5 -> {
                     running = false;
-                    System.out.println("Bye..");
+                    System.out.println("Finish");
                 }
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Error");
             }
         }
     }
@@ -53,16 +53,16 @@ public class Bookstore {
     private void manageBooks() {
         boolean running = true;
         while (running) {
-            System.out.println("\n-------------------------Books---------------------------------");
+            System.out.println("\nBooks");
             List<Book> books = bookJpaController.findBookEntities();
             for (Book book : books) {
                 System.out.println(book);
             }
-            System.out.println("3. Add a Book");
-            System.out.println("4. Edit a Book");
-            System.out.println("5. Delete a Book");
-            System.out.println("6. Sell a Book");
-            System.out.println("7. Quit");
+            System.out.println("3 Add a Book");
+            System.out.println("4 Edit a Book");
+            System.out.println("5 Delete a Book");
+            System.out.println("6 Sell a Book");
+            System.out.println("7 Quit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -73,7 +73,7 @@ public class Bookstore {
                 case 5 -> deleteBook();
                 case 6 -> sellBook();
                 case 7 -> running = false;
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Error");
             }
         }
     }
@@ -83,7 +83,7 @@ public class Bookstore {
         book.initialize();
         try {
             bookJpaController.create(book);
-            System.out.println("Book added successfully.");
+            System.out.println(" added successfully.");
         } catch (Exception e) {
             System.out.println("Error adding book: " + e.getMessage());
         }
@@ -92,15 +92,15 @@ public class Bookstore {
     public void editBook() {
         System.out.print("Enter book ID to edit: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Book book = bookJpaController.findBook(id);
             if (book != null) {
                 book.initialize();
                 bookJpaController.edit(book);
-                System.out.println("Book updated successfully.");
+                System.out.println("updated successfully.");
             } else {
-                System.out.println("Book not found.");
+                System.out.println("Didn't found your book.");
             }
         } catch (Exception e) {
             System.out.println("Error editing book: " + e.getMessage());
@@ -108,12 +108,12 @@ public class Bookstore {
     }
 
     public void deleteBook() {
-        System.out.print("Enter book ID to delete: ");
+        System.out.print("Enter book ID for delete: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             bookJpaController.destroy(id);
-            System.out.println("Book deleted successfully.");
+            System.out.println(" deleted successfully.");
         } catch (Exception e) {
             System.out.println("Error deleting book: " + e.getMessage());
         }
@@ -139,16 +139,13 @@ public class Bookstore {
     public void managePencils() {
         boolean running = true;
         while (running) {
-            System.out.println("\n-------------------------Pencils---------------------------------");
-            //List<Pencil> pencils = pencilJpaController.findPencilEntities();
-        /* for (Pencil pencil : pencils) {
-            System.out.println(pencil);
-        }*/
-            System.out.println("3. Add a Pencil");
-            System.out.println("4. Edit a Pencil");
-            System.out.println("5. Delete a Pencil");
-            System.out.println("6. Sell a Pencil");
-            System.out.println("7. Quit");
+            System.out.println("\n Pencils");
+
+            System.out.println("3 Add a Pencil");
+            System.out.println("4 Edit a Pencil");
+            System.out.println("5 Delete a Pencil");
+            System.out.println("6 Sell a Pencil");
+            System.out.println("7 Quit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -159,7 +156,7 @@ public class Bookstore {
                 case 5 -> deletePencil();
                 case 6 -> sellPencil();
                 case 7 -> running = false;
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Error");
             }
         }
     }
@@ -178,7 +175,7 @@ public class Bookstore {
     public void editPencil() {
         System.out.print("Enter pencil ID to edit: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Pencil pencil = pencilJpaController.findPencil(id);
             if (pencil != null) {
@@ -196,7 +193,7 @@ public class Bookstore {
     public void deletePencil() {
         System.out.print("Enter pencil ID to delete: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             pencilJpaController.destroy(id);
             System.out.println("Pencil deleted successfully.");
@@ -208,15 +205,15 @@ public class Bookstore {
     public void sellPencil() {
         System.out.print("Enter pencil ID to sell: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Pencil pencil = pencilJpaController.findPencil(id);
             if (pencil != null) {
                 pencil.sellCopy();
-                pencilJpaController.edit(pencil); // Update pencil after sale
-                System.out.println("Pencil sold successfully.");
+                pencilJpaController.edit(pencil);
+                System.out.println("sold successfully.");
             } else {
-                System.out.println("Pencil not found.");
+                System.out.println("Didnt found your pencil.");
             }
         } catch (Exception e) {
             System.out.println("Error selling pencil: " + e.getMessage());
@@ -231,14 +228,14 @@ public class Bookstore {
             for (Ticket ticket : tickets) {
                 System.out.println(ticket);
             }
-            System.out.println("3. Add a Ticket");
-            System.out.println("4. Edit a Ticket");
-            System.out.println("5. Delete a Ticket");
-            System.out.println("6. Sell a Ticket");
-            System.out.println("7. Quit");
+            System.out.println("3 Add a Ticket");
+            System.out.println("4 Edit a Ticket");
+            System.out.println("5 Delete a Ticket");
+            System.out.println("6 Sell a Ticket");
+            System.out.println("7 Quit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 3 -> addTicket();
@@ -246,7 +243,7 @@ public class Bookstore {
                 case 5 -> deleteTicket();
                 case 6 -> sellTicket();
                 case 7 -> running = false;
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Error");
             }
         }
     }
@@ -265,7 +262,7 @@ public class Bookstore {
     public void editTicket() {
         System.out.print("Enter ticket ID to edit: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Ticket ticket = ticketJpaController.findTicket(id);
             if (ticket != null) {
@@ -283,7 +280,7 @@ public class Bookstore {
     public void deleteTicket() {
         System.out.print("Enter ticket ID to delete: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             ticketJpaController.destroy(id);
             System.out.println("Ticket deleted successfully.");
@@ -295,15 +292,15 @@ public class Bookstore {
     public void sellTicket() {
         System.out.print("Enter ticket ID to sell: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Ticket ticket = ticketJpaController.findTicket(id);
             if (ticket != null) {
                 ticket.sellCopy();
-                ticketJpaController.edit(ticket); // Update ticket after sale
-                System.out.println("Ticket sold successfully.");
+                ticketJpaController.edit(ticket);
+                System.out.println("sold successfully.");
             } else {
-                System.out.println("Ticket not found.");
+                System.out.println("Didn't found ticket");
             }
         } catch (Exception e) {
             System.out.println("Error selling ticket: " + e.getMessage());
@@ -318,14 +315,14 @@ public class Bookstore {
             for (Magazine magazine : magazines) {
                 System.out.println(magazine);
             }
-            System.out.println("3. Add a Magazine");
-            System.out.println("4. Edit a Magazine");
-            System.out.println("5. Delete a Magazine");
-            System.out.println("6. Sell a Magazine");
-            System.out.println("7. Quit");
+            System.out.println("3 Add a Magazine");
+            System.out.println("4 Edit a Magazine");
+            System.out.println("5 Delete a Magazine");
+            System.out.println("6 Sell a Magazine");
+            System.out.println("7 Quit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 3 -> addMagazine();
@@ -333,7 +330,7 @@ public class Bookstore {
                 case 5 -> deleteMagazine();
                 case 6 -> sellMagazine();
                 case 7 -> running = false;
-                default -> System.out.println("Invalid option. Please try again.");
+                default -> System.out.println("Error");
             }
         }
     }
@@ -343,7 +340,7 @@ public class Bookstore {
         magazine.initialize();
         try {
             magazineJpaController.create(magazine);
-            System.out.println("Magazine added successfully.");
+            System.out.println(" added successfully.");
         } catch (Exception e) {
             System.out.println("Error adding magazine: " + e.getMessage());
         }
@@ -352,15 +349,15 @@ public class Bookstore {
     public void editMagazine() {
         System.out.print("Enter magazine ID to edit: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Magazine magazine = magazineJpaController.findMagazine(id);
             if (magazine != null) {
                 magazine.initialize();
                 magazineJpaController.edit(magazine);
-                System.out.println("Magazine updated successfully.");
+                System.out.println("updated successfully.");
             } else {
-                System.out.println("Magazine not found.");
+                System.out.println("Didn't found magazine.");
             }
         } catch (Exception e) {
             System.out.println("Error editing magazine: " + e.getMessage());
@@ -370,10 +367,10 @@ public class Bookstore {
     public void deleteMagazine() {
         System.out.print("Enter magazine ID to delete: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             magazineJpaController.destroy(id);
-            System.out.println("Magazine deleted successfully.");
+            System.out.println("deleted successfully.");
         } catch (Exception e) {
             System.out.println("Error deleting magazine: " + e.getMessage());
         }
@@ -382,15 +379,15 @@ public class Bookstore {
     public void sellMagazine() {
         System.out.print("Enter magazine ID to sell: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         try {
             Magazine magazine = magazineJpaController.findMagazine(id);
             if (magazine != null) {
                 magazine.sellCopy();
-                magazineJpaController.edit(magazine); // Update magazine after sale
-                System.out.println("Magazine sold successfully.");
+                magazineJpaController.edit(magazine);
+                System.out.println("sold successfully.");
             } else {
-                System.out.println("Magazine not found.");
+                System.out.println("Didnt fount your magazine.");
             }
         } catch (Exception e) {
             System.out.println("Error selling magazine: " + e.getMessage());

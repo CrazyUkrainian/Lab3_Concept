@@ -5,27 +5,27 @@ import lab3.q2.jpa.SaleableItem;
 
 import javax.persistence.*;
 
-@Entity  // Mark this class as a JPA entity
-@Table(name = "tickets")  // Specify the table name in the database
+@Entity
+@Table(name = "tickets")
 public class Ticket extends Editable implements SaleableItem {
 
-    @Id  // Marks the id field as the primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-generate the primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "event_name")  // Map eventName field to the database column
+    @Column(name = "event_name")
     private String eventName;
 
-    @Column(name = "event_date")  // Map event date field to the database column
+    @Column(name = "event_date")
     private String date;
 
-    @Column(name = "price")  // Map price field to the database column
+    @Column(name = "price")
     private double price;
 
-    @Column(name = "copies")  // Map copies field to the database column
+    @Column(name = "copies")
     private int copies;
 
-    // Default constructor
+
     public Ticket() {
         this.eventName = "Unknown Event";
         this.date = "Unknown Date";
@@ -33,7 +33,7 @@ public class Ticket extends Editable implements SaleableItem {
         this.copies = 0;
     }
 
-    // Parameterized constructor
+
     public Ticket(String eventName, String date, double price, int copies) {
         this.eventName = eventName;
         this.date = date;
@@ -41,7 +41,7 @@ public class Ticket extends Editable implements SaleableItem {
         this.copies = copies;
     }
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -82,7 +82,7 @@ public class Ticket extends Editable implements SaleableItem {
         this.copies = copies;
     }
 
-    // Implement sellCopy() from SaleableItem interface
+
     @Override
     public void sellCopy() {
         if (copies > 0) {

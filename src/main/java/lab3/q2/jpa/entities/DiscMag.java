@@ -13,32 +13,32 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "disc_magazines")
-@DiscriminatorValue("DiscMag")  // Specify the subclass name for single-table inheritance
-@Inheritance(strategy = InheritanceType.JOINED)  // Use joined inheritance strategy
+@DiscriminatorValue("DiscMag")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class DiscMag extends Magazine {
 
     @Column(name = "has_disc")
     private boolean hasDisc;
 
-    // No-argument constructor
+
     public DiscMag() {
-        super(); // Calls Magazine's no-argument constructor
-        this.hasDisc = false; // Default value
+        super();
+        this.hasDisc = false;
     }
 
-    // Constructor with hasDisc
+
     public DiscMag(boolean hasDisc) {
-        super(); // Calls Magazine's no-argument constructor
+        super();
         this.hasDisc = hasDisc;
     }
 
-    // Constructor with all parameters
+
     public DiscMag(boolean hasDisc, int orderQty, Date currIssue) {
-        super("", 0.0, 0, orderQty, currIssue); // Default values for title and price
+        super("", 0.0, 0, orderQty, currIssue);
         this.hasDisc = hasDisc;
     }
 
-    // Constructor with title, price, copies, and hasDisc
+
     public DiscMag(String title, double price, int copies, boolean hasDisc, int orderQty, Date currIssue) {
         super(title, price, copies, orderQty, currIssue);
         this.hasDisc = hasDisc;
@@ -55,19 +55,19 @@ public class DiscMag extends Magazine {
     @Override
     public void edit() {
         super.edit(); // Call the parent edit method
-        String hasDiscInput = getInput("Has Disc (true/false, leave blank to keep current): ");
+        String hasDiscInput = getInput("Is it got disk - true or false? keep blank if want): ");
         if (!hasDiscInput.isEmpty()) {
             this.hasDisc = Boolean.parseBoolean(hasDiscInput);
         }
-        System.out.println("DiscMag updated successfully.");
+        System.out.println("updated successfully.");
     }
 
     @Override
     public void initialize() {
-        super.initialize(); // Call the parent initialize method
-        String hasDiscInput = getInput("Has Disc (true/false): ");
+        super.initialize();
+        String hasDiscInput = getInput("False/true is it has disc? ");
         this.hasDisc = Boolean.parseBoolean(hasDiscInput);
-        System.out.println("DiscMag initialized successfully: " + this);
+        System.out.println("initialized successfully: " + this);
     }
 
     @Override

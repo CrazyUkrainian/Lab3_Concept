@@ -75,6 +75,5 @@ public class Magazine extends Publication {
 
     @Override
     public void sellCopy() {
-        //do nothing
     }
 }

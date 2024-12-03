@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Pencil extends Editable implements SaleableItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-generates the primary key for each Pencil
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "brand")
@@ -23,21 +23,20 @@ public class Pencil extends Editable implements SaleableItem {
     @Column(name = "copies")
     private int copies;
 
-    // No-argument constructor
+
     public Pencil() {
         this.brand = "";
         this.price = 0.0;
         this.copies = 0;
     }
 
-    // Constructor with parameters
+
     public Pencil(String brand, double price, int copies) {
         this.brand = brand;
         this.price = price;
         this.copies = copies;
     }
 
-    // Getters and Setters
     public String getBrand() {
         return brand;
     }
@@ -71,13 +70,12 @@ public class Pencil extends Editable implements SaleableItem {
         System.out.println("Pencil initialized successfully: " + this);
     }
 
-    // Method to edit Pencil attributes in the database
     @Override
     public void edit() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    // Method to sell a copy of the pencil
+
     @Override
     public void sellCopy() {
         if (copies > 0) {
@@ -88,7 +86,7 @@ public class Pencil extends Editable implements SaleableItem {
         }
     }
 
-    // Override equals method
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -99,13 +97,12 @@ public class Pencil extends Editable implements SaleableItem {
                 brand.equals(pencil.brand);
     }
 
-    // Override hashCode method
     @Override
     public int hashCode() {
         return Objects.hash(brand, price, copies);
     }
 
-    // Override toString method
+
     @Override
     public String toString() {
         return "Pencil{" +
@@ -115,7 +112,7 @@ public class Pencil extends Editable implements SaleableItem {
                 '}';
     }
 
-    // Helper method for input (can be replaced with actual input handling logic)
+
     public String getInput(String prompt) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(prompt);

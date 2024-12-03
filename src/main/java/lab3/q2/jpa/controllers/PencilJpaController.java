@@ -20,12 +20,12 @@ public class PencilJpaController {
         return emf.createEntityManager();
     }
 
-    // Create a new Pencil
+
     public void create(Pencil pencil) throws PreexistingEntityException {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(pencil); // Persist the pencil entity to the database
+            em.persist(pencil);
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (findPencil(pencil.getId()) != null) {
@@ -39,12 +39,12 @@ public class PencilJpaController {
         }
     }
 
-    // Edit an existing Pencil
+
     public void edit(Pencil pencil) throws NonexistentEntityException, Exception {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            pencil = em.merge(pencil); // Merge the changes into the existing pencil entity
+            pencil = em.merge(pencil);
             em.getTransaction().commit();
         } catch (Exception ex) {
             Long id = pencil.getId();
@@ -67,11 +67,11 @@ public class PencilJpaController {
             Pencil pencil;
             try {
                 pencil = em.getReference(Pencil.class, id);
-                pencil.getId(); // Force exception if not found
+                pencil.getId();
             } catch (Exception e) {
                 throw new NonexistentEntityException("The pencil with id " + id + " no longer exists.", e);
             }
-            em.remove(pencil); // Remove the pencil entity
+            em.remove(pencil);
             em.getTransaction().commit();
         } finally {
             if (em.isOpen()) {
@@ -80,11 +80,11 @@ public class PencilJpaController {
         }
     }
 
-    // Find a Pencil by its ID
+
     public Pencil findPencil(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Pencil.class, id); // Find a pencil entity by its primary key
+            return em.find(Pencil.class, id);
         } finally {
             if (em.isOpen()) {
                 em.close();
@@ -92,12 +92,11 @@ public class PencilJpaController {
         }
     }
 
-    // Find all Pencils
     public List<Pencil> findPencilEntities() {
         return findPencilEntities(true, -1, -1);
     }
 
-    // Find a range of Pencils
+
     public List<Pencil> findPencilEntities(int maxResults, int firstResult) {
         return findPencilEntities(false, maxResults, firstResult);
     }
@@ -119,7 +118,6 @@ public class PencilJpaController {
         }
     }
 
-    // Get the total count of Pencil entities
     public int getPencilCount() {
         EntityManager em = getEntityManager();
         try {
